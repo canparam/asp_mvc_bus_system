@@ -1,0 +1,145 @@
+﻿@model BusSytem.Services.Implements.PageList<BusSystem.Model.BusSchedule.BusScheduleViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+    ViewData["message"] = TempData["message"] ?? "";
+
+}
+<style>
+    .select2-container {
+        width: 100% !important;
+    }
+
+    html {
+        overflow-x: hidden;
+    }
+</style>
+<div class="body flex-grow-1 px-3">
+    <div class="container-lg">
+        <div class="card mb-4">
+            <div class="card-header"><strong>Search</strong></div>
+            <div class="card-body">
+                <form method="get">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="nf-email">BusName</label>
+                                <input class="form-control" type="text" name="BusName" value="@ViewBag.BusName" placeholder="BusName">
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="nf-email">Status</label>
+                                @Html.DropDownList("status", (IEnumerable<SelectListItem>)ViewBag.listStatus, "-- Select --", new { @class = "form-select form-select-sm" })
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary pull-right">Search</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header"><strong>List</strong></div>
+            <div class="card-body">
+                <div class="table-responsive">
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">BusName</th>
+                                <th scope="col">NumberPassengers</th>
+                                <th scope="col">Address</th>
+                                <th scope="col" style="min-width: 100px">Price Ticket</th>
+                                <th scope="col">Start Time</th>
+                                <th scope="col" style="min-width: 100px">Total Ticket</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Created Date</th>
+                                <th scope="col" class="text-center" style="min-width: 150px">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <th>#</th>
+                                    <td>@item.BusName</td>
+                                    <td>@item.NumberPassengers</td>
+                                    <td>
+                                        <p>From: @item.From</p>
+                                        <p>To: @item.To</p>
+                                    </td>
+                                    <td>@item.PriceTicket</td>
+                                    <td>@item.StartTime?.ToLocalTime()</td>
+                                    <td class="text-center">@item.TotalTicket / @item.NumberPassengers</td>
+                                    <td class="text-center">
+                                        @{
+                                            var status = item.Status == 0 ? "Active" : "InActive";
+                                            var className = item.Status == 0 ? "badge bg-success" : "badge bg-danger";
+                                        }
+                                        <span class="@className">@status</span>
+                                    </td>
+                                    <td>@item.CreatedDate</td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <button class="btn btn-warning btn-sm mx-2 text-white" data-click="edit" data-id="@item.Id">Edit</button>
+                                            <form method="post" asp-route="admin.busschedule.delete">
+                                                <input type="hidden" name="Id" value="@item.Id" />
+                                                <button class="btn btn-danger btn-sm mx-2 text-white">Delete</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                    @{
+                        var preDisabled = !Model.PreviousPage ? "disabled" : "";
+                        var nextDisbled = !Model.NextPage ? "disabled" : "";
+                    }
+                </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item @preDisabled">
+                            <a class="page-link" asp-route="admin.partner.list" asp-route-page="@(Model.PageIndex - 1)" tabindex="-1">Previous</a>
+                        </li>
+                        <li class="page-item @nextDisbled">
+                            <a class="page-link" asp-route="admin.partner.list" asp-route-page="@(Model.PageIndex + 1)">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal_busche" data-coreui-backdrop="static" data-coreui-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Edit </h5>
+                <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btn_update" data-click="submitUpdate">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/admin/js/pages/BusSchedule.js"></script>
+}

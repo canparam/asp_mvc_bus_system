@@ -1,0 +1,395 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<BusSystem.Entity.IdentityAccess.User> SignInManager
+@inject UserManager<BusSystem.Entity.IdentityAccess.User> UserManager
+<!doctype html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<!-- Mirrored from script.viserlab.com/viserbus/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 06 Jun 2022 19:22:01 GMT -->
+<!-- Added by HTTrack -->
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> ViserBus - Home</title>
+    <meta name="title" Content="ViserBus - Home">
+    <meta name="description" content="Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit">
+    <meta name="keywords" content="ViserBus,bus booking system,bus booking php script,single vendro bus booking system">
+
+    <link rel="shortcut icon" type="image/x-icon" href="~/Partner/assets/images/logoIcon/favicon.png">
+
+
+    <link rel="apple-touch-icon" href="assets/images/logoIcon/logo.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="ViserBus - Home">
+
+    <meta itemprop="name" content="ViserBus - Home">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="assets/images/seo/6210e34d4726e1645273933.png">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ViserBus - Bus Ticket Booking System">
+    <meta property="og:description" content="Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit ff">
+    <meta property="og:image" content="assets/images/seo/6210e34d4726e1645273933.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="600" />
+    <meta property="og:image:height" content="315" />
+    <meta property="og:url" content="https://script.viserlab.com/viserbus">
+
+
+    <!-- BootStrap Link -->
+    <link rel="stylesheet" href="~/Partner/assets/templates/basic/css/bootstrap.min.css">
+    <!-- Icon Link -->
+    <link rel="stylesheet" href="~/Partner/assets/global/css/all.min.css">
+    <link rel="stylesheet" href="~/Partner/assets/global/css/line-awesome.min.css">
+    <link rel="stylesheet" href="~/Partner/assets/templates/basic/css/flaticon.css">
+
+    <!-- Plugings Link -->
+    <link rel="stylesheet" href="~/Partner/assets/templates/basic/css/slick.css">
+    <link rel="stylesheet" href="~/Partner/assets/global/css/select2.min.css">
+    <link rel="stylesheet" href="~/Partner/assets/templates/basic/css/jquery-ui.css">
+
+    <!-- Cookie Link -->
+    <link rel="stylesheet" href="~/Partner/assets/templates/basic/css/cookie.css">
+    <!-- Custom Link -->
+    <link rel="stylesheet" href="~/Partner/assets/templates/basic/css/main.css">
+    <link rel="stylesheet" href="~/Partner/assets/templates/basic/css/custom.css">
+    <link rel="stylesheet" href="~/Partner/assets/templates/basic/css/colorf972.css?color=0E9E4D">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="~/Partner/assets/css/custom.css">
+
+</head>
+
+<body>
+    <div class="overlay"></div>
+
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="loader-wrapper">
+            <div class="truck-wrapper">
+                <div class="preloader-content">ViserBus</div>
+                <div class="truck">
+                    <div class="truck-container"></div>
+                    <div class="glases"></div>
+                    <div class="bonet"></div>
+
+                    <div class="base"></div>
+
+                    <div class="base-aux"></div>
+                    <div class="wheel-back"></div>
+                    <div class="wheel-front"></div>
+                    <div class="smoke"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Preloader -->
+    <div class="header-top">
+        <div class="container">
+            <div class="header-top-area">
+                <ul class="left-content">
+                    <li>
+                        <i class="las la-phone"></i>
+                        <a href="tel:+44 45678908">
+                            +44 45678908
+                        </a>
+                    </li>
+                    <li>
+                        <i class="las la-envelope-open"></i>
+                        <a href="mailto:example@gmail.com">
+                            example@gmail.com
+                        </a>
+                    </li>
+                </ul>
+                <div class="right-content d-flex flex-wrap" style="gap:10px">
+                    <div>
+
+                    </div>
+                    <ul class="header-login">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li>Hello @User.Identity.Name !</li>
+                            <li>
+                                <a class="sign-in" asp-route="user.logout"><i class="fas fa-sign-in-alt"></i>Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li><a class="sign-in" asp-route="partner.login"><i class="fas fa-sign-in-alt"></i>Sign In</a></li>
+                            <li>/</li>
+                            <li><a class="sign-up" asp-route="partner.signup"><i class="fas fa-user-plus"></i>Sign Up</a></li>
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-bottom">
+        <div class="container">
+            <div class="header-bottom-area">
+                <div class="logo">
+                    <a asp-route="home.index">
+                        <img src="https://script.viserlab.com/viserbus/assets/images/logoIcon/logo.png" alt="Logo">
+                    </a>
+                </div> <!-- Logo End -->
+                <ul class="menu">
+                </ul>
+                <div class="d-flex flex-wrap algin-items-center">
+                    <a asp-route="partner.ticket.index" class="cmn--btn btn--sm">Buy Tickets</a>
+                    <div class="header-trigger-wrapper d-flex d-lg-none ms-4">
+                        <div class="header-trigger d-block d-lg-none">
+                            <span></span>
+                        </div>
+                        <div class="top-bar-trigger">
+                            <i class="las la-ellipsis-v"></i>
+                        </div>
+                    </div><!-- Trigger End-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="banner-section" style="background: url(https://script.viserlab.com/viserbus/assets/images/frontend/banner/61f118f07f1151643190512.png) repeat-x bottom;">
+        <div class="container">
+            <div class="banner-wrapper">
+                <div class="banner-content">
+                    <h1 class="title">Get Your Ticket Online, Easy and Safely</h1>
+                    <a asp-route="partner.ticket.index" class="cmn--btn">Get ticket now</a>
+                </div>
+                <div class="ticket-form-wrapper">
+
+                </div>
+            </div>
+        </div>
+        <div class="shape">
+            <img src="~/Partner/assets/images/frontend/banner/6209144de6ed01644762189.png" alt="bg">
+        </div>
+    </section>
+
+    <section class="working-process padding-top padding-bottom">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-10">
+                    <div class="section-header text-center">
+                        <h2 class="title">Get Your Tickets With Just 3 Steps</h2>
+                        <p>Have a look at our popular reason. why you should choose you bus. Just a Bus and get a ticket for your great journey. !</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-4 gy-md-5 justify-content-center">
+                <div class="col-lg-4 col-md-6 col-sm-10">
+                    <div class="working-process-item">
+                        <div class="thumb-wrapper">
+                            <span>01</span>
+                            <div class="thumb">
+                                <i class="las la-search"></i>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <h4 class="title">Search Your Bus</h4>
+                            <p>Choose your origin, destination,Just choose a Bus journey dates and search for buses</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-10">
+                    <div class="working-process-item">
+                        <div class="thumb-wrapper">
+                            <span>02</span>
+                            <div class="thumb">
+                                <i class="las la-ticket-alt"></i>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <h4 class="title">Choose The Ticket</h4>
+                            <p>Choose your origin, destination,Just a Bus for your great journey dates and search for buses</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-10">
+                    <div class="working-process-item">
+                        <div class="thumb-wrapper">
+                            <span>03</span>
+                            <div class="thumb">
+                                <i class="las la-money-bill-wave-alt"></i>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <h4 class="title">Pay Bill</h4>
+                            <p>Choose your origin, destination,choose a Bus for your great journey dates and search for buses</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="amenities-section padding-bottom">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-10">
+                    <div class="section-header text-center">
+                        <h2 class="title">Our Amenities</h2>
+                        <p>Have a look at our popular reason. why you should choose you bus.Just choose a Bus and get a ticket for your great journey!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="amenities-wrapper">
+                <div class="amenities-slider slick-initialized slick-slider">
+                    <div class="slick-list draggable">
+                        <div class="slick-track" style="opacity: 1; width: 864px; transform: translate3d(0px, 0px, 0px);">
+                            <div class="single-slider slick-slide slick-current slick-active" data-slick-index="0" aria-hidden="false" style="width: 216px;" tabindex="0">
+                                <div class="amenities-item">
+                                    <div class="thumb">
+                                        <i class="las la-wifi"></i>
+                                    </div>
+                                    <h6 class="title">Wifi</h6>
+                                </div>
+                            </div><div class="single-slider slick-slide slick-active" data-slick-index="1" aria-hidden="false" style="width: 216px;" tabindex="0">
+                                <div class="amenities-item">
+                                    <div class="thumb">
+                                        <i class="las la-bed"></i>
+                                    </div>
+                                    <h6 class="title">Pillow</h6>
+                                </div>
+                            </div><div class="single-slider slick-slide slick-active" data-slick-index="2" aria-hidden="false" style="width: 216px;" tabindex="0">
+                                <div class="amenities-item">
+                                    <div class="thumb">
+                                        <i class="las la-prescription-bottle"></i>
+                                    </div>
+                                    <h6 class="title">Water Bottle</h6>
+                                </div>
+                            </div><div class="single-slider slick-slide slick-active" data-slick-index="3" aria-hidden="false" style="width: 216px;" tabindex="0">
+                                <div class="amenities-item">
+                                    <div class="thumb">
+                                        <i class="fas fa-wine-glass-alt"></i>
+                                    </div>
+                                    <h6 class="title">Soft Drinks</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="footer-seciton">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row footer-wrapper gy-sm-5 gy-4">
+                    <div class="col-xl-4 col-lg-3 col-md-6 col-sm-6">
+                        <div class="footer-widget">
+                            <div class="logo">
+                                <img src="~/Partner/assets/images/logoIcon/logo_2.png" alt="Logo">
+                            </div>
+                            <p>Delectus culpa laboriosam debitis saepe. Commodi earum minus ut obcaecati veniam deserunt est!</p>
+                            <ul class="social-icons">
+                                <li>
+                                    <a href="#"><i class="lab la-facebook-f"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="lab la-twitter"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="lab la-vimeo"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="lab la-instagram"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                        <div class="footer-widget">
+                            <h4 class="widget-title">Useful Links</h4>
+                            <ul class="footer-links">
+                                <li>
+                                    <a href="#">About</a>
+                                </li>
+                                <li>
+                                    <a href="#">FAQs</a>
+                                </li>
+                                <li>
+                                    <a href="#">Blog</a>
+                                </li>
+                                <li>
+                                    <a href="#">Contact</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                        <div class="footer-widget">
+                            <h4 class="widget-title">Policies</h4>
+                            <ul class="footer-links">
+                                <li>
+                                    <a href="#">Privacy Policy</a>
+                                </li>
+                                <li>
+                                    <a href="#">Terms and Conditions</a>
+                                </li>
+                                <li>
+                                    <a href="#">Ticket Policies</a>
+                                </li>
+                                <li>
+                                    <a href="#">Refund Policy</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
+                        <div class="footer-widget">
+                            <h4 class="widget-title">Contact Info</h4>
+                            <ul class="footer-contacts">
+                                <li>
+                                    <i class="las la-map-pin"></i> Bengla Road Suite Dhaka 1209
+                                </li>
+                                <li>
+                                    <i class="las la-phone-volume"></i> <a href="tel:+44 45678908"> +44 45678908</a>
+                                </li>
+                                <li>
+                                    <i class="las la-envelope"></i> <a href="mailto:example@gmail.com"> example@gmail.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <a href="javascript::void()" class="scrollToTop active"><i class="las la-chevron-up"></i></a>
+    <script src="~/Partner/assets/global/js/jquery-3.6.0.min.js"></script>
+    <script src="~/Partner/assets/templates/basic/js/bootstrap.min.js"></script>
+    <script src="~/Partner/assets/templates/basic/js/slick.min.js"></script>
+    <script src="~/Partner/assets/global/js/select2.min.js"></script>
+    <script src="~/Partner/assets/templates/basic/js/jquery-ui.min.js"></script>
+    <script src="~/Partner/assets/templates/basic/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="~/admin/js/moment.min.js"></script>
+    <script src="~/Partner/assets/js/app.js"></script>
+
+
+    <link rel="stylesheet" href="~/Partner/assets/global/css/iziToast.min.css">
+    <script src="~/Partner/assets/global/js/iziToast.min.js"></script>
+
+
+    <script>
+        "use strict";
+        function notify(status, message) {
+            iziToast[status]({
+                message: message,
+                position: "topRight"
+            });
+        }
+    </script>
+
+</body>
+
+
+<!-- Mirrored from script.viserlab.com/viserbus/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 06 Jun 2022 19:22:15 GMT -->
+</html>

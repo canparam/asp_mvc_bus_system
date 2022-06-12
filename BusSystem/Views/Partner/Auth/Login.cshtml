@@ -1,0 +1,57 @@
+﻿@model BusSystem.Model.User.LoginUserModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Partner/Shared/_Layout.cshtml";
+}
+
+<section class="account-section bg_img" style="background: url(https://script.viserlab.com/viserbus/assets/images/frontend/sign_in/61f2810a7e4171643282698.jpg) bottom left;">
+    <span class="spark"></span>
+    <span class="spark2"></span>
+    <div class="account-wrapper">
+        <div class="account-form-wrapper">
+            <div class="account-header">
+                <div class="left-content">
+                    <div class="logo mb-4">
+                        <a href="https://script.viserlab.com/viserbus"><img src="https://script.viserlab.com/viserbus/assets/images/logoIcon/logo.png" alt="Logo"></a>
+                    </div>
+                    <h3 class="title">Welcome to Bus Booking</h3>
+                    <span>Sign In your Account</span>
+                </div>
+            </div>
+            @if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
+            {
+                <div class="alert alert-danger" role="alert">
+                    @foreach (var modelError in Html.ViewData.ModelState.SelectMany(keyValuePair => keyValuePair.Value.Errors))
+                    {
+                        <p style="margin-bottom: 0px !important">@modelError.ErrorMessage</p>
+                    }
+                </div>
+            }
+            <form method="POST" class="account-form row" asp-route="partner.login.post">
+                <div class="col-lg-12">
+                    <div class="form--group">
+                        <label for="username">Username</label>
+                        <input id="username" asp-for="Username" type="text" class="form--control" placeholder="Enter Your username" required="">
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form--group">
+                        <label for="password">Password</label>
+                        <input id="password" type="password"  asp-for="Password" class="form--control" placeholder="Enter Your Password" required="">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form--group">
+                        <button class="account-button w-100" type="submit">Log In</button>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="account-page-link">
+                        <p>Don't have any Account? <a asp-route="partner.signup">Sign Up</a></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

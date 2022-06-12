@@ -1,0 +1,157 @@
+﻿@model BusSytem.Services.Implements.PageList<BusSystem.Model.Transacion.TranserHisViewModel>
+@using BusSystem.Data.Enum;
+@{
+    ViewData["Title"] = "History";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<div class="body flex-grow-1 px-3">
+    <div class="container-lg">
+        <div class="card">
+            <div class="card-header">
+                <span>Search</span>
+            </div>
+            <div class="card-body">
+                <form method="get" action="">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="nf-email">UserName</label>
+                                <input class="form-control" type="text" name="username" value="@ViewBag.username" placeholder="UserName">
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="nf-email">Status</label>
+                                @Html.DropDownList("status", (IEnumerable<SelectListItem>)ViewBag.statusOption, "-- Select --", new { @class = "form-select form-select-sm" })
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="nf-email">Type</label>
+                                @Html.DropDownList("type", (IEnumerable<SelectListItem>)ViewBag.typeOption, "-- Select --", new { @class = "form-select form-select-sm" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary pull-right">Search</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="card mt-2">
+            <div class="card-header">
+                <span>List Transacsions</span>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Receiver UserName</th>
+                                <th scope="col">Credit</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Message</th>
+                                <th scope="col">Create By</th>
+                                <th scope="col">Created At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <th scope="row">#</th>
+                                    <td>@item.ReceiverName</td>
+                                    <td>@item.Credit</td>
+                                    <td>
+                                        @{
+                                            var status = item.Status == (int)TransactionStatus.PLUS ? "Plus" : "Sub";
+                                            var classStatus = item.Status == (int)TransactionStatus.PLUS ? "badge bg-success" : "badge bg-danger";
+                                        }
+                                        <span class="@classStatus">@status</span>
+                                    </td>
+                                    <td>
+                                        @{
+                                            var type = "";
+                                            switch (item.Type)
+                                            {
+                                                case (int)TransactionType.ADMIN_SEND:
+                                                    type = "From Admin";
+                                                    break;
+                                                case (int)TransactionType.BUY:
+                                                    type = "Buy";
+                                                    break;
+                                                case (int)TransactionType.REFUND:
+                                                    type = "Refund";
+                                                    break;
+                                                case (int)TransactionType.ADMIN_ROLLBACK:
+                                                    type = "Admin RollBack";
+                                                    break;
+                                            }
+                                        }
+
+                                        <span>@type</span>
+                                    </td>
+                                    <td>@item.Message</td>
+                                    <td>@item.CreateBy</td>
+                                    <td>@item.CreatedAt</td>
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                    @{
+                        var preDisabled = !Model.PreviousPage ? "disabled" : "";
+                        var nextDisbled = !Model.NextPage ? "disabled" : "";
+                    }
+                </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item @preDisabled">
+                            <a class="page-link" asp-route="admin.transaction" asp-route-page="@(Model.PageIndex - 1)" tabindex="-1">Previous</a>
+                        </li>
+                        <li class="page-item @nextDisbled">
+                            <a class="page-link" asp-route="admin.transaction" asp-route-page="@(Model.PageIndex + 1)">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*modal*@
+<div class="modal fade" id="modal_rollback" data-coreui-backdrop="static" data-coreui-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">RollBack Credit</h5>
+                <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3" id="form_rollback">
+                    <div class="col-md-12">
+                        <label class="form-label" for="full_name">Reason</label>
+                        <textarea class="form-control" style="height: 150px" id="reason" name="Message"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btn_rollback" data-click="updateRollback">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/admin/js/pages/Transaction.js"></script>
+}

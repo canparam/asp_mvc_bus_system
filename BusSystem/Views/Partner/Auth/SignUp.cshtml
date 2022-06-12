@@ -1,0 +1,84 @@
+﻿@model BusSystem.Model.User.CreatePartnerModel
+@{
+    ViewData["Title"] = "SignUp";
+    Layout = "~/Views/Partner/Shared/_Layout.cshtml";
+}
+
+<section class="account-section bg_img" style="background: url(https://script.viserlab.com/viserbus/assets/images/frontend/sign_up/61f281283d54b1643282728.jpg) bottom left;">
+    <span class="spark"></span>
+    <span class="spark2"></span>
+    <div class="account-wrapper  sign-up">
+        <div class="account-form-wrapper">
+            <div class="account-header">
+                <div class="left-content">
+                    <div class="logo mb-4">
+                        <a href=""><img src="https://script.viserlab.com/viserbus/assets/images/logoIcon/logo.png" alt="Logo"></a>
+                    </div>
+                    <h3 class="title">Welcome to Bus Booking</h3>
+                    <span>Sign Up your Account</span>
+                </div>
+            </div>
+            @if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
+            {
+                <div class="alert alert-danger" role="alert">
+                    @foreach (var modelError in Html.ViewData.ModelState.SelectMany(keyValuePair => keyValuePair.Value.Errors))
+                    {
+                        <p style="margin-bottom: 0px !important">@modelError.ErrorMessage</p>
+                    }
+                </div>
+            }
+            <form class="account-form row" asp-route="partner.signup.post" method="POST">
+                <div class="col-sm-6 col-xl-6">
+                    <div class="form--group">
+                        <label for="firstname">Full Name <span>*</span></label>
+                        <input id="firstname" type="text" class="form--control" asp-for="FullName" placeholder="Enter Your Full Name" required="">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-6">
+                    <div class="form--group">
+                        <label for="username">Username <span>*</span></label>
+                        <input id="username" type="text" class="form--control checkUser" asp-for="Username" placeholder="Enter Username" required="">
+                        <small class="text-danger usernameExist"></small>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-6">
+                    <div class="form--group">
+                        <label for="email">Email <span>*</span></label>
+                        <input id="email" type="email" class="form--control checkUser" asp-for="Email" placeholder="Enter Your Email" required="">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-6 hover-input-popup">
+                    <div class="form--group">
+                        <label for="password">Password <span>*</span></label>
+                        <input id="password" type="password" class="form--control" asp-for="Password" placeholder="Enter Your Password" required="">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-6 hover-input-popup">
+                    <div class="form--group">
+                        <label for="password">Phone Number <span>*</span></label>
+                        <input id="password" type="text" class="form--control" asp-for="PhoneNumber" placeholder="Enter Your Phone" required="">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-6 hover-input-popup">
+                    <div class="form--group">
+                        <label for="password">Address <span>*</span></label>
+                        <input id="password" type="text" class="form--control" asp-for="Address" placeholder="Enter Your Address" required="">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-6 mb-3">
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form--group">
+                        <button class="account-button w-100" type="submit">Sign Up</button>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="account-page-link">
+                        <p>Already have an Account? <a asp-route="partner.login">Sign In</a></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

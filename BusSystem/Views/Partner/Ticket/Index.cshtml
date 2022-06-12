@@ -1,0 +1,143 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Partner/Shared/_Layout.cshtml";
+}
+@using BusSystem.Model.Bus
+@using BusSystem.Model.TimeSchedule
+@using BusSystem.Model.Schedule
+@inject IJsonHelper Json
+@model BusSytem.Services.Implements.PageList<BusSystem.Model.BusSchedule.BusScheduleViewModel>
+<div class="ticket-search-bar bg_img padding-top" style="background: url(https://script.viserlab.com/viserbus/assets/images/default.png) left center;">
+    <div class="container">
+        <div class="bus-search-header">
+            <form  method="get" class="ticket-form ticket-form-two row g-3 justify-content-center">
+                <div class="col-md-4 col-lg-3">
+                    <input type="hidden" name="fleetType" value="" />
+                    <div class="form--group">
+                        <label class="form-label">From</label>
+                        @Html.DropDownList("From", (IEnumerable<SelectListItem>)ViewBag.from, "-- Select --", new { @class = "form-select" })
+
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                    <div class="form--group">
+                        <label class="form-label">To</label>
+
+                        @Html.DropDownList("To", (IEnumerable<SelectListItem>)ViewBag.to, "-- Select --", new { @class = "form-select" })
+
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                    <div class="form--group">
+                        <label class="form-label">Time</label>
+                        <input type="text" name="time" id="Time" class="form--control" value="@ViewBag.time" />
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="form--group">
+                        <label class="form-label">Search</label>
+                        <button>Find Tickets</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<section class="ticket-section padding-bottom section-bg">
+    <div class="container">
+        <div class="row gy-5">
+            <div class="col-lg-3">
+                <form action="" id="filterForm">
+                    <div class="ticket-filter">
+                        <div class="filter-header filter-item">
+                            <h4 class="title mb-0">Filter</h4>
+                            <button type="reset" class="reset-button h-auto">Reset All</button>
+                        </div>
+                        <div class="filter-item">
+                            <h5 class="title">Vehicle Type</h5>
+                            <ul class="bus-type">
+                                @foreach (BusViewModel item in ViewBag.bus)
+                                {
+                                    <li class="custom--checkbox">
+                                        <input name="fleetType[@item.Id]" class="search" value="@item.Id" id="Classic_@item.Id" type="checkbox">
+                                        <label for="Classic_@item.Id" ><span><i class="las la-bus"></i>@item.Name</span></label>
+                                    </li>
+                                }
+
+
+                            </ul>
+                            <button class="btn btn--success btn--sm mt-2">Filter</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-9">
+                <div class="ticket-wrapper">
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="ticket-item">
+                            <div class="ticket-item-inner">
+                                <h5 class="bus-name">@item.From <i class="las la-arrow-right" style="color: var(--main-color);"></i> @item.To</h5>
+                                <span class="bus-info">Ticket: @item.TotalTicket / @item.NumberPassengers</span>
+                                <span class="ratting"><i class="las la-bus"></i>@item.BusName</span>
+                            </div>
+                            <div class="ticket-item-inner travel-time">
+                                <div class="bus-time">
+                                    <p class="time">@item.StartTime</p>
+                                    <p class="place"></p>
+                                </div>
+                            </div>
+                            <div class="ticket-item-inner book-ticket" style="text-align: end">
+                                <p class="rent mb-0">$@item.PriceTicket</p>
+                                <div class="seats-left mt-2 mb-3 fs--14px">
+                                    @*Off Days: <div class="d-inline-flex flex-wrap" style="gap:5px">
+                                            <span class="badge badge--primary">Friday</span>
+                                        </div>*@
+                                </div>
+                                <a class="btn btn--base" asp-route="partner.ticket.order" asp-route-id="@item.Id" data-click="StepOrderOne" data-id="@item.Id">Select Seat</a>
+                            </div>
+                        </div>
+                    }
+                    <div class="mt-2">
+                        @{
+                            var preDisabled = !Model.PreviousPage ? "disabled" : "";
+                            var nextDisbled = !Model.NextPage ? "disabled" : "";
+                        }
+                        <ul class="d-flex justify-content-end mt-2">
+                            <li class="page-item @preDisabled">
+                                <a class="page-link" asp-route="partner.ticket.index" asp-route-fleetType="s" asp-route-page="@(Model.PageIndex - 1)" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item @nextDisbled">
+                                <a class="page-link" asp-route="partner.ticket.index" asp-route-fleetType="s" asp-route-page="@(Model.PageIndex + 1)">Next</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts {
+
+    <script>
+        flatpickr("#Time", {
+            mode: "range",
+            dateFormat: "d-m-Y",
+
+        });
+
+
+        $(document).ready(function () {
+            var filter = @Json.Serialize(ViewBag.busFilter);
+            $.each(filter, function (index, value) {
+                $('#Classic_' + value).prop('checked', true);
+
+            })
+        });
+    </script>
+    <script src="~/Partner/assets/js/Ticket.js"></script>
+}

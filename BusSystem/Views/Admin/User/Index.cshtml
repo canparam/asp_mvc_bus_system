@@ -1,0 +1,174 @@
+﻿@model BusSytem.Services.Implements.PageList<BusSystem.Model.User.PartnerUserViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    ViewData["message"] = TempData["message"] ?? "";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<div class="body flex-grow-1 px-3">
+    <div class="container-lg">
+        <div class="card mb-4">
+            <div class="card-header"><strong>Search</strong></div>
+            <div class="card-body">
+                <form method="get">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="nf-email">Email</label>
+                                <input class="form-control" type="text" name="email" value="@ViewBag.email" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="nf-email">UserName</label>
+                                <input class="form-control" type="text" name="username" value="@ViewBag.username" placeholder="UserName">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary pull-right">Search</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header"><strong>List</strong></div>
+            <div class="card-body">
+                <div class="table-responsive">
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Status</th>
+                                <th scope="col" class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <th scope="row">#</th>
+                                    <td>@item.Username</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.Amount</td>
+                                    <td>
+                                        @{
+                                            var class_name = item.Status == 0 ? "badge bg-success" : "badge bg-danger";
+                                            var text = item.Status == 0 ? "Active" : "Lock";
+                                        }
+                                        <span class="@class_name">@text</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="d-flex justify-content-center">
+
+                                            <div class="mx-1">
+                                                <button type="button" data-id="@item.Id" data-click="modalEditUser" class="btn btn-warning btn-sm">Edit</button>
+                                            </div>
+                                            <div class="mx-1">
+                                                <a  asp-route="admin.transaction" asp-route-username="@item.Username" class="btn btn-info btn-sm">Log Transaction</a>
+                                            </div>
+                                            <div class="mx-1">
+                                                <a asp-route="admin.order.list" asp-route-username="@item.Username" class="btn btn-primary btn-sm">List Order</a>
+                                            </div>
+                                            <div class="mx-1">
+                                                <button type="submit" data-click="deletePartner" data-id="@item.Id" class="btn btn-danger btn-sm">Delete</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                    @{
+                        var preDisabled = !Model.PreviousPage ? "disabled" : "";
+                        var nextDisbled = !Model.NextPage ? "disabled" : "";
+                    }
+                </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item @preDisabled">
+                            <a class="page-link" asp-route="admin.partner.list" asp-route-page="@(Model.PageIndex - 1)" tabindex="-1">Previous</a>
+                        </li>
+                        <li class="page-item @nextDisbled">
+                            <a class="page-link" asp-route="admin.partner.list" asp-route-page="@(Model.PageIndex + 1)">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*modal*@
+<div class="modal fade" id="modal_user_edit" data-coreui-backdrop="static" data-coreui-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Edit User</h5>
+                <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3" id="form_update">
+                    <div class="col-md-6">
+                        <label class="form-label" for="full_name">Full Name</label>
+                        <input class="form-control" id="full_name" name="FullName" type="text">
+                        <span class="text-danger error-FullName"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="email">Email</label>
+                        <input class="form-control" id="email" disabled type="email">
+
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="username">Username</label>
+                        <input class="form-control" id="username" disabled type="text">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="phonenumber">Phone Number</label>
+                        <input class="form-control" id="phonenumber" name="PhoneNumber" type="text">
+                        <span class="text-danger error-PhoneNumber"></span>
+
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label" for="address">Address</label>
+                        <input class="form-control" id="address" name="Address" type="text">
+                        <span class="text-danger error-Address"></span>
+
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="status">Status</label>
+                        <select class="form-select" name="Status" id="status">
+                            <option value="0" selected>Active</option>
+                            <option value="1">Lock</option>
+                        </select>
+                        <span class="text-danger error-Status"></span>
+
+                    </div>
+                    <div class="col-md-8">
+                        <label class="form-label" for="password">Password (<span class="text-danger">No change, please not input</span>)</label>
+                        <input class="form-control" id="password" name="Password" type="password">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btn_update" data-click="updatePartner">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/admin/js/pages/user.js"></script>
+}

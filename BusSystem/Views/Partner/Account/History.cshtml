@@ -1,0 +1,113 @@
+﻿@model BusSytem.Services.Implements.PageList<BusSystem.Model.Order.OrderViewModel>
+@inject IJsonHelper Json;
+@{
+    ViewData["Title"] = "History";
+    Layout = "~/Views/Partner/Shared/_Layout.cshtml";
+
+}
+
+<section class="inner-banner bg_img" style="background: url(https://script.viserlab.com/viserbus/assets/images/frontend/breadcrumb/61f14e10b48871643204112.jpg) center">
+    <div class="container">
+        <div class="inner-banner-content">
+            <h2 class="title">Booking History</h2>
+        </div>
+    </div>
+</section>
+<section class="dashboard-section padding-top padding-bottom">
+    <div class="container">
+        <div class="dashboard-wrapper">
+            <div class="booking-table-wrapper">
+                <table class="booking-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Custom Name</th>
+                            <th>Custom Phone</th>
+                            <th>Amount</th>
+                            <th>Discount</th>
+                            <th>Status</th>
+                            <th>Order Date</th>
+                            <th>Active</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ticket-no">#</td>
+                                <td class="ticket-no">@item.FullName</td>
+                                <td>@item.Phone</td>
+                                <td class="pickup">@item.Amount</td>
+                                <td class="drop">@item.Discount</td>
+                                <td class="date">
+                                    @{
+                                        var status = item.Status == 0 ? "Paid" : "Refund";
+                                        var className = item.Status == 0 ? "badge badge--success" : "badge badge--danger";
+                                    }
+                                    <span class="@className">@status</span>
+                                </td>
+                                <td >
+                                    @item.CreatedDate
+                                </td>
+                                <td class="action">
+                                    <div class="action-button-wrapper">
+                                        <a href="javascript:void(0)"  data-id="@item.Id" data-click="OrderInfo" class="checkinfo " style="margin-right: 10px"><i class="las la-info-circle"></i></a>
+                                        @if (item.Status == 0)
+                                        {
+                                            <a href="javascript:void(0)" data-id="@item.Id" data-click="CancelOrder" class="checkinfo"><i class="las la-undo-alt text--danger"></i></a>
+
+                                        }
+                                        else
+                                        {
+                                            <a href="javascript:void(0)"  class=""></a>
+                                        }
+
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+                @{
+                    var preDisabled = !Model.PreviousPage ? "disabled" : "";
+                    var nextDisbled = !Model.NextPage ? "disabled" : "";
+                }
+                <ul class="d-flex justify-content-end mt-2">
+                    <li class="page-item @preDisabled">
+                        <a class="page-link" asp-route="partner.user_history" asp-route-page="@(Model.PageIndex - 1)" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item @nextDisbled">
+                        <a class="page-link" asp-route="partner.user_history" asp-route-page="@(Model.PageIndex + 1)">Next</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="modal fade " id="infoModal" tabindex="-1" aria-labelledby="myModalLabel" aria-modal="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> Ticket Booking History</h5>
+                <button type="button" class="w-auto btn--close" data-bs-dismiss="modal"><i class="las la-times"></i></button>
+            </div>
+            <div class="modal-body p-4">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn--danger w-auto btn--sm px-3" data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+
+
+    <script src="~/Partner/assets/js/account.js"></script>
+}

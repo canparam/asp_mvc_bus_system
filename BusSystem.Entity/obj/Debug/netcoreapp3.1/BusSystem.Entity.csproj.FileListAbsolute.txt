@@ -1,0 +1,12 @@
+C:\Users\Can\source\repos\BusSystem\BusSystem.Entity\bin\Debug\netcoreapp3.1\BusSystem.Entity.deps.json
+C:\Users\Can\source\repos\BusSystem\BusSystem.Entity\bin\Debug\netcoreapp3.1\BusSystem.Entity.runtimeconfig.json
+C:\Users\Can\source\repos\BusSystem\BusSystem.Entity\bin\Debug\netcoreapp3.1\BusSystem.Entity.runtimeconfig.dev.json
+C:\Users\Can\source\repos\BusSystem\BusSystem.Entity\bin\Debug\netcoreapp3.1\BusSystem.Entity.dll
+C:\Users\Can\source\repos\BusSystem\BusSystem.Entity\bin\Debug\netcoreapp3.1\BusSystem.Entity.pdb
+C:\Users\Can\source\repos\BusSystem\BusSystem.Entity\obj\Debug\netcoreapp3.1\BusSystem.Entity.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Can\source\repos\BusSystem\BusSystem.Entity\obj\Debug\netcoreapp3.1\BusSystem.Entity.AssemblyInfoInputs.cache
+C:\Users\Can\source\repos\BusSystem\BusSystem.Entity\obj\Debug\netcoreapp3.1\BusSystem.Entity.AssemblyInfo.cs
+C:\Users\Can\source\repos\BusSystem\BusSystem.Entity\obj\Debug\netcoreapp3.1\BusSystem.Entity.csproj.CoreCompileInputs.cache
+C:\Users\Can\source\repos\BusSystem\BusSystem.Entity\obj\Debug\netcoreapp3.1\BusSystem.Entity.dll
+C:\Users\Can\source\repos\BusSystem\BusSystem.Entity\obj\Debug\netcoreapp3.1\BusSystem.Entity.pdb
+C:\Users\Can\source\repos\BusSystem\BusSystem.Entity\obj\Debug\netcoreapp3.1\BusSystem.Entity.genruntimeconfig.cache

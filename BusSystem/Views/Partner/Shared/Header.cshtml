@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject BusSystem.Services.Interfaces.IWalletService walletSerive
+@using BusSystem.Entity
+@inject SignInManager<BusSystem.Entity.IdentityAccess.User> SignInManager
+@inject UserManager<BusSystem.Entity.IdentityAccess.User> UserManager
+
+@{
+    var test = await walletSerive.UserAmount();
+}
+<div class="header-bottom">
+    <div class="container">
+        <div class="header-bottom-area">
+            <div class="logo">
+                <a asp-route="home.index">
+                    <img src="~/Partner/assets/images/logoIcon/logo.png" alt="Logo">
+                </a>
+            </div> <!-- Logo End -->
+            <ul class="menu">
+                <li>
+                    <a asp-route="partner.dashboard.user">Dashboard</a>
+                </li>
+                <li>
+                    <a  asp-route="partner.user_history">Booking History</a>
+                </li>
+                <li class="has-sub-menu">
+                    <a href="#0">Profile</a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a asp-route="partner.user_profile">Profile</a>
+                        </li>
+                        <li>
+                            <a asp-route="partner.user_change_password">Change Password</a>
+                        </li>
+                        <li>
+                            <a asp-route="partner.logout">Logout</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0)">@test $</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

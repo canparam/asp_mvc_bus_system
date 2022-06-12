@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BusSystem.Data\BusSystem.Data.csproj" />
+    <ProjectReference Include="..\BusSystem.Entity\BusSystem.Entity.csproj" />
+    <ProjectReference Include="..\BusSystem.Model\BusSystem.Model.csproj" />
+  </ItemGroup>
+
+</Project>

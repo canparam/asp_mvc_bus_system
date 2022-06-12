@@ -1,0 +1,61 @@
+﻿@model BusSytem.Services.Implements.PageList<BusSystem.Model.Customer.CustomerViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+<div class="body flex-grow-1 px-3">
+    <div class="container-lg">
+       
+        <div class="card mb-4">
+            <div class="card-header"><strong>List</strong></div>
+            <div class="card-body">
+                <div class="table-responsive">
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Full Name</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Address</th>
+                                <th scope="col" style="min-width: 100px">Email</th>
+                                <th scope="col" style="min-width: 100px">Birthday</th>
+                                <th scope="col" style="min-width: 100px">Total Ticket</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <th scope="row">#</th>
+                                    <th scope="row">@item.FullName</th>
+                                    <th scope="row">@item.Phone</th>
+                                    <th scope="row">@item.Address</th>
+                                    <th scope="row">@item.Email</th>
+                                    <th scope="row">@item.Birthday?.ToString("dd-MM-yyyy")</th>
+                                    <th scope="row" class="text-center">@item.TotalTicket</th>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                    @{
+                        var preDisabled = !Model.PreviousPage ? "disabled" : "";
+                        var nextDisbled = !Model.NextPage ? "disabled" : "";
+                    }
+                </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item @preDisabled">
+                            <a class="page-link" asp-route="admin.customer" asp-route-page="@(Model.PageIndex - 1)" tabindex="-1">Previous</a>
+                        </li>
+                        <li class="page-item @nextDisbled">
+                            <a class="page-link" asp-route="admin.customer" asp-route-page="@(Model.PageIndex + 1)">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

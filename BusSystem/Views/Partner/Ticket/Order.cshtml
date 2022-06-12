@@ -1,0 +1,109 @@
+﻿@model BusSystem.Model.BusSchedule.BusScheduleViewModel
+@using BusSystem.Model.Customer
+@{
+    ViewData["Title"] = "Order";
+    Layout = "~/Views/Partner/Shared/_Layout.cshtml";
+}
+<section class="inner-banner bg_img" style="background: url(https://script.viserlab.com/viserbus/assets/images/frontend/breadcrumb/61f14e10b48871643204112.jpg) center">
+    <div class="container">
+        <div class="inner-banner-content">
+            <h2 class="title">@Model.From -> @Model.To</h2>
+        </div>
+    </div>
+</section>
+<div class="padding-top padding-bottom">
+    <div class="container">
+        <div class="row gx-xl-5 gy-4 gy-sm-5 justify-content-center">
+            <div class="col-lg-4 col-md-6">
+                <h6 class="title">Information</h6>
+                <div class="seat-overview-wrapper">
+                    <ul>
+                        <li>From: @Model.From</li>
+                        <li>To: @Model.To</li>
+                        <li>Start Time: @Model.StartTime</li>
+                        <li>Price: @Model.PriceTicket $</li>
+                        <li>Bus Name: @Model.BusName</li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <h6 class="title">Infomation customer</h6>
+                <div class="seat-overview-wrapper">
+
+                    <form method="POST" id="bookingForm" class="row gy-2">
+                        <input type="hidden" name="BusCheduleId" value="@Model.Id" />
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="pickup_point" class="form-label">Phone Number</label>
+                                <select name="PhoneNumber" id="pickNumber" data-change="selectPhone" class="form--control">
+                                    <option value="">Select</option>
+                                    @foreach (CustomerViewModel item in ViewBag.customers)
+                                    {
+                                        <option value="@item.Phone">@item.Phone</option>
+                                    }
+                                </select>
+                                <span class="text-danger error-PhoneNumber"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="pickup_point" class="form-label">Full Name</label>
+                                <input type="text" name="FullName" value="" placeholder="Full" class="form--control" />
+                                <span class="text-danger error-FullName"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="pickup_point" class="form-label">Address</label>
+                                <input type="text" name="Address" value="" placeholder="Address" class="form--control" />
+                                <span class="text-danger error-Address"></span>
+
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="pickup_point" class="form-label">Email</label>
+                                <input type="text" name="Email" value="" placeholder="Email" class="form--control" />
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="pickup_point" class="form-label">Birthday</label>
+                                <input type="date" name="Birthday" value="" data-change="changeBirtday" placeholder="Birthday" class="form--control" />
+                                <span class="text-danger error-Birthday"></span>
+
+                            </div>
+                        </div>
+                        <div class="booked-seat-details my-3 ">
+                            <label>Selected Seats</label>
+                            <div class="list-group seat-details-animate">
+                                <span class="list-group-item d-flex bg--base text-white justify-content-between">Seat Details<span>Price</span></span>
+                                <div class="selected-seat-details">
+                                    <span class="list-group-item d-flex justify-content-between">1-Tick <span>@Model.PriceTicket USD</span></span>
+                                </div>
+                                <div id="app_discount">
+
+                                </div>
+                                <div class="selected-seat-details">
+                                    <span class="list-group-item d-flex justify-content-between"><b>Amount</b> <span id="amount"> @Model.PriceTicket USD</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="button" class="book-bus-btn" data-click="OrderSubmit">Continue</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+
+    <script>
+        var price = @Model.PriceTicket;
+    </script>
+    <script src="~/Partner/assets/js/Ticket.js"></script>
+}

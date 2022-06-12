@@ -1,0 +1,112 @@
+﻿@model BusSystem.Model.Order.OrderDetailViewModel
+<style>
+    .bo {
+        border-bottom: 1px dashed #ebebeb;
+        padding: 5px 0;
+    }
+</style>
+
+<p class="d-flex flex-wrap justify-content-between pt-0 bo">
+    <strong>Order Date</strong>  <span>@Model.OrderCreateDate</span>
+</p>
+<p class="d-flex flex-wrap justify-content-between bo">
+    <strong>Status</strong>  <span>
+        @{
+            var oder = "";
+            var clas = "";
+            switch (Model.OrderStatus)
+            {
+                case 0:
+                    oder = "Paid";
+                    clas = "badge bg-success";
+                    break;
+                case 1:
+                    oder = "Refund";
+                    clas = "badge bg-danger";
+                    break;
+            }
+        }
+        <span class="@clas">@oder</span>
+    </span>
+</p>
+<p class="d-flex flex-wrap justify-content-between pt-0 bo">
+    <strong>From</strong>  <span>@Model.From</span>
+</p>
+
+<p class="d-flex flex-wrap justify-content-between pt-0 bo">
+    <strong>To</strong>  <span>@Model.To</span>
+</p>
+<p class="d-flex flex-wrap justify-content-between pt-0 bo">
+    <strong>StartTime</strong>  <span>@Model.StartTime</span>
+</p>
+<p class="d-flex flex-wrap justify-content-between pt-0 bo">
+    <strong>Bus Name</strong>  <span>@Model.BusName</span>
+</p>
+<p class="d-flex flex-wrap justify-content-between pt-0 bo">
+    <strong>Price: </strong>  <span>@Model.Total$</span>
+</p>
+<p class="d-flex flex-wrap justify-content-between pt-0 bo">
+    <strong>Discount: </strong>  <span>@Model.Discount%</span>
+</p>
+<p class="d-flex flex-wrap justify-content-between pt-0 bo">
+    <strong>Amount: </strong>  <span>@Model.Amount$</span>
+</p>
+<div class="mt-2">
+    <div class="d-flex justify-content-between">
+        <h5>Info Ticket:</h5>
+        <i class="las la-print text--info" onClick="printdiv('tiket');" style="font-size: 20px; cursor: pointer"></i>
+    </div>
+    <p class=" bo"></p>
+    <div id="tiket">
+        <p class="d-flex flex-wrap justify-content-between pt-0 bo">
+            <strong>CODE: </strong>  <span>@Model.Code</span>
+        </p>
+        <p class="d-flex flex-wrap justify-content-between pt-2 bo">
+            <strong>CUSTOM NAME: </strong>  <span>@Model.FullName</span>
+        </p>
+        <p class="d-flex flex-wrap justify-content-between pt-2 bo">
+            <strong>CUSTOM PHONE: </strong>  <span>@Model.Phone</span>
+        </p>
+        <p class="d-flex flex-wrap justify-content-between pt-2 bo">
+            <strong>STATUS: </strong>
+            @{
+                var ticket = "";
+                var clasTik = "";
+                switch (Model.TicketStatus)
+                {
+                    case 0:
+                        ticket = "Active";
+                        clasTik = "badge bg-success";
+                        break;
+                    case 1:
+                        ticket = "Used";
+                        clasTik = "badge bg-warning";
+                        break;
+                    case 2:
+                        ticket = "Cancel";
+                        clasTik = "badge bg-danger";
+                        break;
+                }
+                var time = DateTime.Now;
+                if (Model.StartTime < time)
+                {
+                    ticket = "Expired";
+                    clasTik = "badge bg-warning";
+                }
+            }
+            <span class="@clasTik">@ticket </span>
+        </p>
+    </div>
+</div>
+<script>
+    function printdiv(printpage) {
+        var headstr = "<html><head><title></title></head><body>";
+        var footstr = "</body>";
+        var newstr = document.all.item(printpage).innerHTML;
+        var oldstr = document.body.innerHTML;
+        document.body.innerHTML = headstr + newstr + footstr;
+        window.print();
+        document.body.innerHTML = oldstr;
+        return false;
+    }
+</script>

@@ -1,0 +1,95 @@
+﻿@model BusSytem.Services.Implements.PageList<BusSystem.Model.TimeSchedule.TimeScheduleViewModel>
+
+@{
+    ViewData["Title"] = "ListTimeBySchedule";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+
+<div class="body flex-grow-1 px-3">
+    <div class="container-lg">
+        <div class="card mb-4">
+            <div class="card-header"><strong>Create New</strong></div>
+            <div class="card-body">
+                <form class="row g-3" id="form_schedule_time">
+                    <div class="col-md-4">
+                        <label class="form-label" for="From">Start Time</label>
+                        <br />
+                        <input type="text" name="StartTime" id="StartTime" value="" class="form-control" />
+                        <span class="text-danger error-StartTime"></span>
+                    </div>
+
+                    <input type="hidden" name="ScheduleId" value="@ViewBag.schedule.Id" />
+                    <span class="text-danger error-ScheduleId"></span>
+
+                    <div class="col-12">
+                        <button class="btn btn-primary" type="button" data-click="createSchTime">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header">
+                <strong>List Time Schedules </strong>
+                <div>
+                    <p>@ViewBag.schedule.From</p>
+                    <p class="text-success fw-bold"> To </p>
+                    <p>@ViewBag.schedule.To</p>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Start Time</th>
+                                <th scope="col">Created At</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <th scope="row">#</th>
+                                    <td>@item.StartTime</td>
+
+                                    <td>@item.CreatedDate</td>
+
+                                    <td>
+                                        <form asp-route="admin.schedule.time.delete" method="post">
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <button class="btn btn-danger btn-sm text-white" type="submit">Delete</button>
+
+                                        </form>
+
+                                    </td>
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                    @*@{
+                            var preDisabled = !Model.PreviousPage ? "disabled" : "";
+                            var nextDisbled = !Model.NextPage ? "disabled" : "";
+                        }
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-end">
+                                <li class="page-item @preDisabled">
+                                    <a class="page-link" asp-route="admin.bus" asp-route-page="@(Model.PageIndex - 1)" tabindex="-1">Previous</a>
+                                </li>
+                                <li class="page-item @nextDisbled">
+                                    <a class="page-link" asp-route="admin.bus" asp-route-page="@(Model.PageIndex + 1)">Next</a>
+                                </li>
+                            </ul>
+                        </nav>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/admin/js/pages/schedule.js"></script>
+}

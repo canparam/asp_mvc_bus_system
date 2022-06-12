@@ -1,0 +1,78 @@
+﻿@using BusSystem.Model.Schedule;
+@using BusSystem.Model.TimeSchedule;
+@using BusSystem.Model.Bus;
+@model BusSystem.Model.BusSchedule.BusScheduleViewModel
+
+<form class="row g-3" id="form_update">
+    <div class="col-md-12">
+
+        <label class="form-label fw-bold">Bus</label>
+        <br />
+
+        <select class="js-scheduletime-modal" name="BusId" id="BusId">
+            <option value="">  -- SELECT --</option>
+            @foreach (BusViewModel item in ViewBag.listBus)
+            {
+                <option value="@item.Id"> @item.Name - Number Passengers: @item.Quantity</option>
+            }
+        </select>
+        <span class="text-danger error-BusId"></span>
+    </div>
+    <div class="col-md-12">
+
+        <label class="form-label fw-bold">Price / 1 Ticket</label>
+        <br />
+        <input type="number" name="Price" value="@Model.PriceTicket" min="0" class="form-control" />
+        <span class="text-danger error-Price"></span>
+    </div>
+    <div class="col-md-12">
+
+        <label class="form-label fw-bold">Schedule</label>
+        <br />
+        <select class="js-scheduletime-modal" name="ScheduleId" id="ScheduleId">
+            <option value="">  -- SELECT --</option>
+            @foreach (ScheduleViewModel item in ViewBag.listSch)
+            {
+                <option value="@item.Id"> @item.From -> @item.To</option>
+            }
+        </select>
+        <span class="text-danger error-ScheduleId"></span>
+    </div>
+    <div class="col-md-12">
+        <label class="form-label fw-bold">Schedule Time</label>
+        <br />
+        <select class="js-scheduletime-modal" name="ScheduleTimeId" id="schedule_time">
+            <option value="">  -- SELECT --</option>
+            @foreach (TimeScheduleViewModel item in ViewBag.listTimeBySch)
+            {
+                <option value="@item.Id"> @item.StartTime</option>
+            }
+        </select>
+        <span class="text-danger error-ScheduleTimeId"></span>
+    </div>
+    <div class="col-md-12">
+        <label class="form-label fw-bold">Status</label>
+        <br />
+        <select class="js-scheduletime-modal" name="Status">
+            <option value="0"> Active</option>
+            <option value="1"> InActive</option>
+        </select>
+        <span class="text-danger error-Status"></span>
+    </div>
+</form>
+<script>
+    $(document).ready(function () {
+        $("#BusId").select2().select2('val', "@Model.BusId");
+        $("#ScheduleId").select2().select2('val', "@Model.ScheduleId");
+
+
+        $(`select[name="ScheduleTimeId"]`).select2().val("@Model.TimeScheduleId").trigger('change');
+
+        $(`select[name="Status"]`).val("@Model.Status");
+
+        toggleSelect2();
+
+        $("#ScheduleId").attr("data-change", "modal_Sch");
+    });
+
+</script>

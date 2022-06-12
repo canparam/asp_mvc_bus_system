@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+
+}
+@using BusSystem.Model.Schedule;
+@using BusSystem.Model.Bus;
+<style>
+    .select2-container {
+        width: 100% !important;
+    }
+
+    html {
+        overflow-x: hidden;
+    }
+</style>
+<div class="body flex-grow-1 px-3">
+    <div class="container-lg">
+        <div class="card mb-4">
+            <div class="card-header"><strong>Create New</strong></div>
+            <div class="card-body">
+                <form class="row g-3" id="form_bussche">
+                    <div class="col-md-12">
+
+                        <label class="form-label fw-bold">Bus</label>
+                        <br />
+                        <select class="js-scheduletime-create" name="BusId">
+                            <option value="">  -- SELECT --</option>
+                            @foreach (BusViewModel item in ViewBag.listBus)
+                            {
+                                <option value="@item.Id"> @item.Name - Number Passengers: @item.Quantity</option>
+                            }
+                        </select>
+                        <span class="text-danger error-BusId"></span>
+                    </div>
+                    <div class="col-md-12">
+
+                        <label class="form-label fw-bold">Price / 1 Ticket</label>
+                        <br />
+                        <input type="number" name="Price" value="0" min="0" class="form-control" />
+                        <span class="text-danger error-Price"></span>
+
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label fw-bold">Schedule</label>
+                        <br />
+                        <select class="js-scheduletime-create" data-change="selectSchedule" name="ScheduleId">
+                            <option value="">  -- SELECT --</option>
+                            @foreach (ScheduleViewModel item in ViewBag.lisSchedule)
+                            {
+                                <option value="@item.Id"> @item.From -> @item.To</option>
+                            }
+                        </select>
+                        <span class="text-danger error-ScheduleId"></span>
+                    </div>
+                    <div class="col-md-12" id="schedule_time" style="display: none">
+                        <label class="form-label fw-bold">Schedule Time</label>
+                        <br />
+                        <select class="js-scheduletime-create" name="ScheduleTimeId">
+                        </select>
+                        <span class="text-danger error-ScheduleTimeId"></span>
+                    </div>
+                    <div class="col-md-12">
+                        <button class="btn btn-primary" type="button" data-click="createBusSche">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section scripts {
+    <script src="~/admin/js/pages/BusSchedule.js"></script>
+}

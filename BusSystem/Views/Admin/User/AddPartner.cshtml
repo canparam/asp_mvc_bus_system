@@ -1,0 +1,55 @@
+﻿@model BusSystem.Model.User.CreatePartnerModel
+@{
+    ViewData["Title"] = "AddPartner";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+<div class="body flex-grow-1 px-3">
+    <div class="container-lg">
+        <div class="card mb-4">
+            <div class="card-header"><strong>Add New Partner</strong></div>
+            <div class="card-body">
+                @if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @foreach (var modelError in Html.ViewData.ModelState.SelectMany(keyValuePair => keyValuePair.Value.Errors))
+                        {
+                            <p style="margin-bottom: 0px !important">@modelError.ErrorMessage</p>
+                        }
+                    </div>
+                }
+            <form class="row g-3" method="post" asp-route="admin.partner.add.post" enctype="multipart/form-data">
+
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="Email">Email</label>
+                    <input class="form-control" asp-for="Email" type="email">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="Password">Password</label>
+                    <input class="form-control" asp-for="Password" type="password">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="Username">Username</label>
+                    <input class="form-control" asp-for="Username" type="text">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" asp-for="PhoneNumber">Phone Number</label>
+                    <input class="form-control" asp-for="PhoneNumber" type="text">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label " asp-for="Address">Address</label>
+                    <input class="form-control" asp-for="Address" type="text">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label " asp-for="FullName">Full Name</label>
+                    <input class="form-control" asp-for="FullName" type="text">
+                </div>
+
+                <div class="col-12">
+                    <button class="btn btn-primary" type="submit">Create</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewData["Title"] = "Transer";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+<style>
+    .select2-container {
+        width: 100% !important;
+    }
+    html {
+        overflow-x: hidden;
+    }
+</style>
+<div class="body flex-grow-1 px-3">
+    <div class="container-lg">
+        <div class="mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Send credit</h4>
+                </div>
+                <div class="card-body">
+
+                    <form id="form_credit">
+                        <div class="d-flex justify-content-center">
+                            <div class="w-50">
+                                <label class="mb-2 fw-bold">Choose a partner</label>
+                                <select class="js-example-basic-multiple" name="UserId">
+                                </select>
+                                <span class="text-danger error-UserId"></span>
+                                <div class="mt-3">
+                                    <label class="col-form-label fw-bold">Credit</label>
+                                    <input type="number" style="height: 40px;" class="form-control" name="Credit" value="0" min="0" placeholder="Quantity" />
+                                    <span class="text-danger error-Credit"></span>
+                                </div>
+                                <div class="mt-3">
+                                    <label class="col-form-label fw-bold">Message</label>
+                                    <textarea class="form-control" name="Message" placeholder="Message" style="height:150px"></textarea>
+                                    <span class="text-danger error-Message"></span>
+                                </div>
+                                <div class="mt-3">
+                                    <button class="btn btn-primary" type="button" data-click="sendCredit">Send Credit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        @*<div class="mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h4>RollBack credit</h4>
+                </div>
+                <div class="card-body">
+
+                    <form id="form_credit">
+                        <div class="d-flex justify-content-center">
+                            <div class="w-50">
+                                <label class="mb-2 fw-bold">Choose a partner</label>
+                                <select class="js-example-basic-multiple" name="UserId">
+                                </select>
+                                <span class="text-danger error-UserId"></span>
+                                <div class="mt-3">
+                                    <label class="col-form-label fw-bold">Credit</label>
+                                    <input type="number" style="height: 40px;" class="form-control" name="Credit" value="0" min="0" placeholder="Quantity" />
+                                    <span class="text-danger error-Credit"></span>
+                                </div>
+                                <div class="mt-3">
+                                    <label class="col-form-label fw-bold">Reason</label>
+                                    <textarea class="form-control" name="Message" placeholder="Reason" id="reason" style="height:150px"></textarea>
+                                    <span class="text-danger error-Message"></span>
+                                </div>
+                                <div class="mt-3">
+                                    <button class="btn btn-danger text-white" type="button" data-click="sendCredit">RollBack</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>*@
+    </div>
+</div>
+@section scripts {
+    <script src="~/admin/js/pages/Transaction.js"></script>
+}

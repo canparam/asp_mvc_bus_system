@@ -1,0 +1,141 @@
+﻿@model BusSytem.Services.Implements.PageList<BusSystem.Model.Bus.BusViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+<div class="body flex-grow-1 px-3">
+    <div class="container-lg">
+        <div class="card mb-4">
+            <div class="card-header"><strong>Create New</strong></div>
+            <div class="card-body">
+                <form class="row g-3" id="form_bus">
+                    <div class="col-md-4">
+                        <label class="form-label" for="Name">Name</label>
+                        <input class="form-control" id="Name" type="text" name="Name" placeholder="Name">
+                        <span class="text-danger error-Name"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="inputState">Status</label>
+                        <select class="form-select form-select-sm" id="inputState" name="Status">
+                            <option selected value="0">Active</option>
+                            <option value="1">InActive</option>
+                        </select>
+                        <span class="text-danger error-Status"></span>
+
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" for="Passengers">Number Passengers</label>
+                        <input class="form-control" name="Quantity" id="Passengers" type="number" value="1" min="1" placeholder="Number Passengers">
+                        <span class="text-danger error-Quantity"></span>
+
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary" type="button" data-click="createBus">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header"><strong>List Bus</strong></div>
+            <div class="card-body">
+                <div class="table-responsive">
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Number Passengers</th>
+                                <th scope="col">Created At</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <th scope="row">#</th>
+                                <td>@item.Name</td>
+                                <td>
+                                    @{
+                                        var status = item.Status == 0 ? "Active" : "InActive";
+                                        var className = item.Status == 0 ? "badge bg-success" : "badge bg-danger";
+                                    }
+                                    <span class="@className">@status</span>
+                                </td>
+                                <td>@item.Quantity</td>
+                                <td>@item.CreatedDate</td>
+
+                                <td>
+                                    <button class="btn btn-warning btn-sm text-white" data-click="editBus" data-id="@item.Id" type="button">Edit</button>
+                                    <button class="btn btn-danger btn-sm text-white" data-click="deleteBus" data-id="@item.Id" type="button">Delete</button>
+                                </td>
+                            </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                    @{
+                        var preDisabled = !Model.PreviousPage ? "disabled" : "";
+                        var nextDisbled = !Model.NextPage ? "disabled" : "";
+                    }
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-end">
+                            <li class="page-item @preDisabled">
+                                <a class="page-link" asp-route="admin.bus" asp-route-page="@(Model.PageIndex - 1)" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item @nextDisbled">
+                                <a class="page-link" asp-route="admin.bus" asp-route-page="@(Model.PageIndex + 1)">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*modal*@
+
+<div class="modal fade" id="modal_editBus" data-coreui-backdrop="static" data-coreui-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Edit Bus</h5>
+                <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3" id="form_update">
+                    <div class="col-md-12">
+                        <label class="form-label" for="full_name">Name</label>
+                        <input class="form-control" id="full_name" name="Name" type="text">
+                        <span class="text-danger error-Name"></span>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label" for="modal_quantity">Number Passengers</label>
+                        <input class="form-control" id="modal_quantity" name="Quantity" type="number" min="1">
+                        <span class="text-danger error-Quantity"></span>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label" for="status">Status</label>
+                        <select class="form-select" name="Status" id="status">
+                            <option value="0" selected>Active</option>
+                            <option value="1">InActive</option>
+                        </select>
+                        <span class="text-danger error-Status"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btn_update" data-click="updateBus">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/admin/js/pages/Bus.js"></script>
+}

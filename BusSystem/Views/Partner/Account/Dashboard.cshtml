@@ -1,0 +1,136 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject BusSystem.Services.Interfaces.IWalletService walletSerive
+@inject BusSystem.Services.Interfaces.ITransactionHisService TransactionHisService
+@inject BusSystem.Services.Interfaces.IOrderService orderSerive
+@using BusSystem.Entity
+@inject SignInManager<BusSystem.Entity.IdentityAccess.User> SignInManager
+@inject UserManager<BusSystem.Entity.IdentityAccess.User> UserManager
+@using BusSystem.Data.Enum
+@inject IJsonHelper Json
+@{
+    var test = await walletSerive.UserAmount();
+    var trans = await TransactionHisService.GetTotalTransaction();
+    var oder = await orderSerive.TotalOrder();
+}
+@model BusSytem.Services.Implements.PageList<BusSystem.Model.Transacion.TranserHisViewModel>
+
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Partner/Shared/_Layout.cshtml";
+}
+<section class="inner-banner bg_img" style="background: url(https://script.viserlab.com/viserbus/assets/images/frontend/breadcrumb/61f14e10b48871643204112.jpg) center">
+    <div class="container">
+        <div class="inner-banner-content">
+            <h2 class="title">Dashboard</h2>
+        </div>
+    </div>
+</section>
+<section class="dashboard-section padding-top padding-bottom">
+    <div class="container">
+        <div class="dashboard-wrapper">
+            <div class="row pb-60 gy-4 justify-content-center">
+                <div class="col-lg-4 col-md-6 col-sm-10">
+                    <div class="dashboard-widget">
+                        <div class="dashboard-widget__content">
+                            <p>Total Booked Ticket</p>
+                            <h3 class="title">@oder</h3>
+                        </div>
+                        <div class="dashboard-widget__icon">
+                            <i class="las la-ticket-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-10">
+                    <div class="dashboard-widget">
+                        <div class="dashboard-widget__content">
+                            <p>Total Transaction</p>
+                            <h3 class="title">@trans</h3>
+                        </div>
+                        <div class="dashboard-widget__icon">
+                            <i class="las la-ticket-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-10">
+                    <div class="dashboard-widget">
+                        <div class="dashboard-widget__content">
+                            <p>Amount</p>
+                            <h3 class="title">@test$</h3>
+                        </div>
+                        <div class="dashboard-widget__icon">
+                            <i class="las la-ticket-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="booking-table-wrapper">
+                <table class="booking-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Credit</th>
+                            <th>Status</th>
+                            <th>Type</th>
+                            <th>Message	</th>
+                            <th>Created At</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <th scope="row">#</th>
+                                <td>@item.Credit</td>
+                                <td>
+                                    @{
+                                        var status = item.Status == (int)TransactionStatus.PLUS ? "Plus" : "Sub";
+                                        var classStatus = item.Status == (int)TransactionStatus.PLUS ? "badge bg--success" : "badge bg--danger";
+                                    }
+                                    <span class="@classStatus">@status</span>
+                                </td>
+                                <td>
+                                    @{
+                                        var type = "";
+                                        switch (item.Type)
+                                        {
+                                            case (int)TransactionType.ADMIN_SEND:
+                                                type = "From Admin";
+                                                break;
+                                            case (int)TransactionType.BUY:
+                                                type = "Buy";
+                                                break;
+                                            case (int)TransactionType.REFUND:
+                                                type = "Refund";
+                                                break;
+                                            case (int)TransactionType.ADMIN_ROLLBACK:
+                                                type = "Admin RollBack";
+                                                break;
+                                        }
+                                    }
+
+                                    <span>@type</span>
+                                </td>
+                                <td>@item.Message</td>
+                                <td>@item.CreatedAt</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                @{
+                    var preDisabled = !Model.PreviousPage ? "disabled" : "";
+                    var nextDisbled = !Model.NextPage ? "disabled" : "";
+                }
+                <ul class="d-flex justify-content-end mt-2">
+                    <li class="page-item @preDisabled">
+                        <a class="page-link" asp-route="partner.dashboard.user" asp-route-page="@(Model.PageIndex - 1)" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item @nextDisbled">
+                        <a class="page-link" asp-route="partner.dashboard.user" asp-route-page="@(Model.PageIndex + 1)">Next</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
