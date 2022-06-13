@@ -4,14 +4,16 @@ using BusSystem.Data.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BusSystem.Data.Migrations
 {
     [DbContext(typeof(BusSystemDbContext))]
-    partial class BusSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220613065927_v9900v")]
+    partial class v9900v
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

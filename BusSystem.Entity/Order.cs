@@ -24,6 +24,11 @@ namespace BusSystem.Entity
         public int Discount { get; set; }
         public int CustomerId { get; set; }
         public int BusCheduleId { get; set; }
+        public int TransactionId { get; set; }
+
+        [ForeignKey(nameof(TransactionId))]
+        public virtual TransactionHis TransactionHis { get; set; }
+
 
         [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; }

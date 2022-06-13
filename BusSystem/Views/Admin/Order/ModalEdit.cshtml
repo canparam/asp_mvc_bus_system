@@ -1,0 +1,54 @@
+﻿@model BusSystem.Model.Order.OrderDetailViewModel
+<style>
+    .bo {
+        border-bottom: 1px dashed #ebebeb;
+        padding: 5px 0;
+    }
+</style>
+
+<p class="d-flex flex-wrap justify-content-between pt-0 bo">
+    <strong>Order Date</strong>  <span>@Model.OrderCreateDate</span>
+</p>
+<p class="d-flex flex-wrap justify-content-between bo">
+    <strong>Status</strong>  <span>
+        @{
+            var oder = "";
+            var clas = "";
+            switch (Model.OrderStatus)
+            {
+                case 0:
+                    oder = "Paid";
+                    clas = "badge bg-success";
+                    break;
+                case 1:
+                    oder = "Refund";
+                    clas = "badge bg-danger";
+                    break;
+            }
+        }
+        <span class="@clas">@oder</span>
+    </span>
+</p>
+<p class="d-flex flex-wrap justify-content-between pt-0 bo">
+    <strong>From</strong>  <span>@Model.From</span>
+</p>
+
+<p class="d-flex flex-wrap justify-content-between pt-0 bo">
+    <strong>To</strong>  <span>@Model.To</span>
+</p>
+<p class="d-flex flex-wrap justify-content-between pt-0 bo">
+    <strong>StartTime</strong>  <span>@Model.StartTime</span>
+</p>
+<p class="d-flex flex-wrap justify-content-between pt-0 bo">
+    <strong>Bus Name</strong>  <span>@Model.BusName</span>
+</p>
+<p class="d-flex flex-wrap justify-content-between pt-0 bo">
+    <strong>Price: </strong>  <span>@Model.Total$</span>
+</p>
+<p class="d-flex flex-wrap justify-content-between pt-0 bo">
+    <strong>Discount: </strong>  <span>@Model.Discount%</span>
+</p>
+<p class="d-flex flex-wrap justify-content-between pt-0 bo">
+    <strong>Amount: </strong>  <span>@Model.Amount$</span>
+</p>
+

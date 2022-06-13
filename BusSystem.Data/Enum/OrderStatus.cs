@@ -7,6 +7,7 @@ namespace BusSystem.Data.Enum
     public enum OrderStatus
     {
         ACTIVE,
-        INACTIVE
+        INACTIVE,
+        CANCEL
     }
 }

@@ -151,7 +151,7 @@ namespace BusSystem.Controllers.Admin
             {
                 TempData["message"] = "Remove Erros!";
             }
-            return RedirectToAction("ListTimeBySchedule");
+            return RedirectToAction("Index");
         }
     }
 }

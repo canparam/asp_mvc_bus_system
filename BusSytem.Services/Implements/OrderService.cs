@@ -155,6 +155,18 @@ namespace BusSystem.Services.Implements
 
                 _walletRepository.Update(wallet);
 
+                var hisTransaction = new TransactionHis()
+                {
+                    Credit = createOrderModel.Amount,
+                    UserId = user.Id,
+                    Status = (int)Data.Enum.TransactionStatus.SUB,
+                    Type = (int)Data.Enum.TransactionType.BUY,
+                    CreatedBy = user.UserName,
+                    CreatedDate = DateTime.Now,
+                    Message = "Payment buy ticket"
+                };
+                await _transactionHisRepository.InsertAsync(hisTransaction);
+                _unitOfWork.Complete();
 
                 var oder = new Order()
                 {
@@ -165,7 +177,8 @@ namespace BusSystem.Services.Implements
                     Discount = createOrderModel.Discount,
                     CustomerId = custom.Id,
                     CreatedDate = DateTime.Now,
-                    BusCheduleId = (int)busSchedule.Id
+                    BusCheduleId = (int)busSchedule.Id,
+                    TransactionId = hisTransaction.Id
                 };
                 var od = await _orderRepository.InsertAsync(oder);
                 _unitOfWork.Complete();
@@ -184,19 +197,9 @@ namespace BusSystem.Services.Implements
                 await _orderDetailRepository.InsertAsync(orderDetail);
 
 
-                var hisTransaction = new TransactionHis()
-                {
-                    Credit = createOrderModel.Amount,
-                    UserId = user.Id,
-                    Status = (int)Data.Enum.TransactionStatus.SUB,
-                    Type = (int)Data.Enum.TransactionType.BUY,
-                    CreatedBy = user.UserName,
-                    CreatedDate = DateTime.Now,
-                    Message = "Payment for OrderId: " + od.Id
-                };
-                await _transactionHisRepository.InsertAsync(hisTransaction);
+                
 
-
+               
 
                 var ticket = new Ticket()
                 {
@@ -280,7 +283,7 @@ namespace BusSystem.Services.Implements
 
         public int GetTotalTicketByBusScheId(int id)
         {
-            return _orderRepository.GetAll().Where(u => u.BusCheduleId == id).Count();
+            return _orderRepository.GetAll().Where(u => u.BusCheduleId == id && u.Status == (int)OrderStatus.ACTIVE).Count();
         }
 
         public List<OrderViewModel> ListOrder(int pageIndex, int PageSize, OrderSearchModel model)
